@@ -7,7 +7,7 @@ class Ship:
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
-        self.image = pygame.image.load('Project/ship.bmp') #Load the ship image
+        self.image = pygame.image.load('Project1/ship.bmp') #Load the ship image
         self.rect = self.image.get_rect() #and get its rect.
         self.rect.midbottom = self.screen_rect.midbottom #start each new ship at the bottom center of the screen.
         self.x = float(self.rect.x) #store a float for the ship that's not moving.
