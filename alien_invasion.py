@@ -1,7 +1,9 @@
 #Creating a Pygame window and Responding to User Input
 import sys
 from time import sleep
+
 import pygame
+
 from settings import Settings
 from game_stats import GameStats
 from ship import Ship
@@ -9,7 +11,6 @@ from bullet import Bullet
 from alien import Alien
 
 class AlienInvasion:
-    #Controlling the Frame Rate
     """Overall class to manage game assets and behavior."""
     def __init__(self):
         """Initialize the game, and create game resources."""
@@ -21,7 +22,8 @@ class AlienInvasion:
         The argument (0,0) is a tuple that defines the dimensions of the game window,
         and because we don't know the width ad height of the screen, we have the 'FULLSCREEN' 
         parameter it tells python to figure out a window size that fits the screen."""
-        self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height)) #we update the height and width after the screen is created
+        self.screen = pygame.display.set_mode(
+            (self.settings.screen_width, self.settings.screen_height)) #we update the height and width after the screen is created
         pygame.display.set_caption("Alien Invasion") 
         self.stats = GameStats(self)
         self.ship = Ship(self) #import Ship class and make an instance of Ship
@@ -58,7 +60,7 @@ class AlienInvasion:
             elif event.type == pygame.KEYUP: #responds to keyup event
                 self._check_keyup_events(event) #checks to see if the player released the right arrow key 
     
-    def _check_keydown_events(self,event):
+    def _check_keydown_events(self, event):
         """Respond to keypresses."""
         if event.key == pygame.K_RIGHT: #checks to see if the right arrow key was pressed
             """Move the ship to the righht."""
@@ -71,7 +73,7 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
     
-    def _check_keyup_events(self,event):
+    def _check_keyup_events(self, event):
         """Respond to key releases."""
         if event.key == pygame.K_RIGHT: #checks to see if the right arrow key was pressed
             self.ship.moving_right = False #and if so we set 'moving_right' to False
@@ -95,7 +97,7 @@ class AlienInvasion:
     def _check_bullet_alien_collisions(self):
         """Respond to bullet-alien collisions."""
         #Remove any bullets and aliens that have collided.
-        collisions = pygame.sprite.groupcollide(self.bullets,self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if not self.aliens:
             #Destroy existing bullets and create new fleet.
             self.bullets.empty()
@@ -106,7 +108,7 @@ class AlienInvasion:
         self._check_fleet_edges()
         self.aliens.update()
         #Look for alien-ship collisions.
-        if pygame.sprite.spritecollideany(self.ship,self.aliens):
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
         #Look for aliens hitting the bottom of the screen.
         self._check_aliens_bottom()
@@ -126,9 +128,9 @@ class AlienInvasion:
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         current_x, current_y = alien_width, alien_height
-        while current_y < (self.settings.screen_width - 3 * alien_height):
+        while current_y < (self.settings.screen_height - 3 * alien_height):
             while current_x < (self.settings.screen_width - 2 * alien_width):
-                self._create_alien(current_x,current_y)
+                self._create_alien(current_x, current_y)
                 current_x += 2 * alien_width
             #Finished a row; reset x value, and icrement y value.
             current_x = alien_width
