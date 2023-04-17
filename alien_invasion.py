@@ -48,15 +48,15 @@ class AlienInvasion:
     def _check_events(self):
         """Respond to key presses and mouse events."""
         for event in pygame.event.get(): #Event loop manages the screen updates,listens for events and perform appropriate tasks depending on the kind of event that occurs.
-                """To access the events that Pygame detects, we use the function 'pygame.event.get()'. Which returns a list of events 
-                that have taken place since the last time we called the function. Any keyboard or mouse event will cause this for loop to run"""
-                if event.type == pygame.QUIT: #when the player clicks the game window"s close button, a pygame.QUIT event is detected
-                    """meant to detect and respond to specific events.""" 
-                    sys.exit() #calls sys.exit() to exit the game.
-                elif event.type == pygame.KEYDOWN: #responds to keydown event
-                    self._check_keydown_events(event) #checks to see if the right arrow key was pressed
-                elif event.type == pygame.KEYUP: #responds to keyup event
-                    self._check_keyup_events(event) #checks to see if the player released the right arrow key 
+            """To access the events that Pygame detects, we use the function 'pygame.event.get()'. Which returns a list of events 
+            that have taken place since the last time we called the function. Any keyboard or mouse event will cause this for loop to run"""
+            if event.type == pygame.QUIT: #when the player clicks the game window"s close button, a pygame.QUIT event is detected
+                """meant to detect and respond to specific events.""" 
+                sys.exit() #calls sys.exit() to exit the game.
+            elif event.type == pygame.KEYDOWN: #responds to keydown event
+                self._check_keydown_events(event) #checks to see if the right arrow key was pressed
+            elif event.type == pygame.KEYUP: #responds to keyup event
+                self._check_keyup_events(event) #checks to see if the player released the right arrow key 
     
     def _check_keydown_events(self,event):
         """Respond to keypresses."""
@@ -101,14 +101,6 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
     
-    def _check_aliens_bottom(self):
-        """Check if any aliens have reached the bottom of the screen."""
-        for alien in self.aliens.sprites():
-            if alien.rect.bottom >= self.settings.screen_height:
-                #Treat this the same as if the ship got hit.
-                self._ship_hit()
-                break
-    
     def _update_aliens(self):
         """Update the positions of all aliens in the fleet."""
         self._check_fleet_edges()
@@ -119,6 +111,14 @@ class AlienInvasion:
         #Look for aliens hitting the bottom of the screen.
         self._check_aliens_bottom()
     
+    def _check_aliens_bottom(self):
+        """Check if any aliens have reached the bottom of the screen."""
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= self.settings.screen_height:
+                #Treat this the same as if the ship got hit.
+                self._ship_hit()
+                break
+
     def _create_fleet(self):
         """Create the fleet of aliens."""
         #Create an alien and keep adding aliens until there's no room left.
@@ -135,12 +135,12 @@ class AlienInvasion:
             current_y += 2 * alien_height
     
     def _create_alien(self,x_position,y_position):
-            """Create an alien and place it in the fleet."""
-            new_alien = Alien(self)
-            new_alien.x = x_position
-            new_alien.rect.x = x_position
-            new_alien.rect.y = y_position
-            self.aliens.add(new_alien)
+        """Create an alien and place it in the fleet."""
+        new_alien = Alien(self)
+        new_alien.x = x_position
+        new_alien.rect.x = x_position
+        new_alien.rect.y = y_position
+        self.aliens.add(new_alien)
     
     def _check_fleet_edges(self):
         """Respond appropriately if any aliens have reached an edge."""
@@ -153,7 +153,7 @@ class AlienInvasion:
         """Drop the entire fleet and change the fleet's direction."""
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
-            self.settings.fleet_direction *= -1
+        self.settings.fleet_direction *= -1
     
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
