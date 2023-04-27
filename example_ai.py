@@ -1,14 +1,11 @@
 import sys
 from time import sleep
-
 import pygame
-
 from settings import Settings
 from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
-
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -106,6 +103,25 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
 
+    def _ship_hit(self):
+        """Respond to the ship being hit by an alien."""
+        if self.stats.ships_left > 0:
+            # Decrement ships_left.
+            self.stats.ships_left -= 1
+
+            # Get rid of any remaining bullets and aliens.
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # Pause.
+            sleep(0.5)
+        else:
+            self.game_active = False
+
     def _update_aliens(self):
         """Update the positions of all aliens in the fleet."""
         """Check if the fleet is at an edge, then update positions."""
@@ -164,25 +180,6 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
-
-    def _ship_hit(self):
-        """Respond to the ship being hit by an alien."""
-        if self.stats.ships_left > 0:
-            # Decrement ships_left.
-            self.stats.ships_left -= 1
-
-            # Get rid of any remaining bullets and aliens.
-            self.bullets.empty()
-            self.aliens.empty()
-
-            # Create a new fleet and center the ship.
-            self._create_fleet()
-            self.ship.center_ship()
-
-            # Pause.
-            sleep(0.5)
-        else:
-            self.game_active = False
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""

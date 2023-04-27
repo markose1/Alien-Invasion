@@ -1,9 +1,7 @@
 #Creating a Pygame window and Responding to User Input
 import sys
 from time import sleep
-
 import pygame
-
 from settings import Settings
 from game_stats import GameStats
 from ship import Ship
@@ -17,13 +15,7 @@ class AlienInvasion:
         pygame.init() #initializes the background settings that Pygame needs to work properly
         self.clock = pygame.time.Clock() #we create an instance of the class 'Clock'
         self.settings = Settings()
-        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) #tells Pygame to figure out a window size that will fill the screen
-        """creates a display window that we'll draw all the game's graphical elements. 
-        The argument (0,0) is a tuple that defines the dimensions of the game window,
-        and because we don't know the width ad height of the screen, we have the 'FULLSCREEN' 
-        parameter it tells python to figure out a window size that fits the screen."""
-        self.screen = pygame.display.set_mode(
-            (self.settings.screen_width, self.settings.screen_height)) #we update the height and width after the screen is created
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height)) #we update the height and width after the screen is created
         pygame.display.set_caption("Alien Invasion") 
         self.stats = GameStats(self)
         self.ship = Ship(self) #import Ship class and make an instance of Ship
@@ -123,7 +115,7 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """Create the fleet of aliens."""
-        #Create an alien and keep adding aliens until there's no room left.
+        #Create an alien and keep adding3 aliens until there's no room left.
         #Spacing between aliens is one alien width and one alien height.
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
@@ -131,7 +123,7 @@ class AlienInvasion:
         while current_y < (self.settings.screen_height - 3 * alien_height):
             while current_x < (self.settings.screen_width - 2 * alien_width):
                 self._create_alien(current_x, current_y)
-                current_x += 2 * alien_width
+                current_y += 2 * alien_width
             #Finished a row; reset x value, and icrement y value.
             current_x = alien_width
             current_y += 2 * alien_height
